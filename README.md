@@ -1,0 +1,1 @@
+# ocp-disconnected-setup-resources
