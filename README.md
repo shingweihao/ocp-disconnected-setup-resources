@@ -1,10 +1,10 @@
 # OCP Disconnected Setup Resources Playbook
-A playbook written to automate the process of preparing necessary resources for an OCP UPI disconnected environment installation.
+A simple playbook written to automate the process of preparing necessary resources for an OCP UPI disconnected environment installation.
 
-# How do I run this?
+# Variables
 You will need to modify the following files according to your needs:
 - `inventory`
-- `vars/vars.yaml`
+- `vars.yaml`
 
 **If there is any unused variables, leave it as default/empty.**
 

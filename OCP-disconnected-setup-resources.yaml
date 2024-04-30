@@ -1,7 +1,7 @@
 ---
 - name: Playbook to setup files for OCP disconnected environment
   hosts: localhost
-  become: false
+  become: true
   gather_facts: false
   vars_files:
   - vars.yaml
