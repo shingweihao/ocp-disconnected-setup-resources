@@ -1,6 +1,6 @@
 ---
 # Directories
-dir_files: /tmp/ocpfiles
+dir_files: /ocpfiles
 dir_save_tarball: /home/weihao
 
 # OCP configs
@@ -34,7 +34,7 @@ mirror_reg_pwd: password
 # Contents to mirror configs
 platform_images: y
 redhat_operators: y
-certified_operators: y
+certified_operators: n
 community_operators: n
 additional_images: y
 
