@@ -5,9 +5,8 @@ A playbook written to automate the process of preparing necessary resources for 
 You will need to modify the following files according to your needs:
 - `inventory`
 - `vars/vars.yaml`
-- `vars/contents-to-mirror.yaml`
 
-**If there is any variable that you do not use, leave it as default value.**
+**If there is any unused variables, leave it as default/empty.**
 
 ## Define hosts (inventory)
 - For NTP: Define NTP server **IP adress** or **FQDN**.
@@ -47,7 +46,6 @@ You will need to modify the following files according to your needs:
 - `mirror_reg_user`: Username for mirror registry
 - `mirror_reg_pwd`: Password for mirror registry
 
-## Define contents to mirror (vars/contents-to-mirror.yaml)
 ### Contents to mirror configs
 - `platform_images`: Indicate any platform images to mirror (default: y, values: y/n)
 - `redhat_operators`: Indicate any Red Hat operators to mirror (default: y, values: y/n)
@@ -77,6 +75,7 @@ You may skip certain jobs while running the playbook.
 - `download-resources`: Plays associated to downloading resources for OCP
 - `keepalived`: Plays associated to provisioning keepalived config files
 - `mirroring`: Plays associated to mirroring OCP platform & operator images
+- `ntp_machineconfig`: Plays associated to creating NTP MachineConfigs
 
 To run the playbook while skipping certain tasks, add the ``--skip-tags`` flag.
 ```
@@ -84,4 +83,38 @@ $ ansible-playbook -i inventory OCP-disconnected-setup-resources.yaml \
 --skip-tags=download \
 --skip-tags=keepalived \
 ...
+```
+
+The end result should be a generated tar in the specified `dir_save_tarball` directory.  
+You can then bring this .tar into the disconnected environment, and proceed with the deployment.
+```
+$ ls
+ocpfiles-30Apr1355.tar.gz
+```
+```
+$ tree
+
+── binaries
+│   ├── kubectl
+│   ├── oc
+│   ├── oc-mirror
+│   └── openshift-install
+├── configs
+│   ├── 99-master-chrony-conf.yaml
+│   ├── 99-worker-chrony-conf.yaml
+│   ├── config.json
+│   ├── haproxy.cfg
+│   ├── keepalived.conf_BACKUP
+│   ├── keepalived.conf_MASTER
+│   ├── local.repo
+│   └── mcp-infra.yaml
+├── installer
+│   └── install-config.yaml
+├── mirror-registry
+│   ├── execution-environment.tar
+│   ├── image-archive.tar
+│   ├── imageset-config.yaml
+│   ├── mirror-registry
+│   └── mirror_seq_000001.tar
+└── ocpfiles-30Apr1355.tar.gz
 ```

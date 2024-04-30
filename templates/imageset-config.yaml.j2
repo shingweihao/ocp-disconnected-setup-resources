@@ -13,35 +13,35 @@ mirror:
   operators:
 {% endif %}
 {% if redhat_operators == 'y' %}
-  {% for operator in redhat_operators_list %}
   - catalog: registry.redhat.io/redhat/redhat-operator-index:v{{ ocp_version_channel }}                                                    
     packages:
-      - name: {{ operator.name }}
-        channels:
-        - name: {{ operator.channel }}
-  {% endfor %}
+{% for operator in redhat_operators_list %}
+    - name: {{ operator.name }}
+      channels:
+      - name: {{ operator.channel }}
+{% endfor %}
 {% endif %}
 {% if certified_operators == 'y' %}
-  {% for operator in certified_operators_list %}
   - catalog: registry.redhat.io/redhat/certified-operator-index:v{{ ocp_version_channel }}                                                    
     packages:
-      - name: {{ operator.name }}
-        channels:
-        - name: {{ operator.channel }}
-  {% endfor %}
+{% for operator in certified_operators_list %}
+    - name: {{ operator.name }}
+      channels:
+      - name: {{ operator.channel }}
+{% endfor %}
 {% endif %}
 {% if community_operators == 'y' %}
-  {% for operator in community_operators %}
   - catalog: registry.redhat.io/redhat/community-operator-index:v{{ ocp_version_channel }}                                                    
     packages:
-      - name: {{ operator.name }}
-        channels:
-        - name: {{ operator.channel }}
-  {% endfor %}
+{% for operator in community_operators_list %}
+    - name: {{ operator.name }}
+      channels:
+      - name: {{ operator.channel }}
+{% endfor %}
 {% endif %}
-{% if additionalimages_list == 'y' %}
+{% if additional_images == 'y' %}
   additionalImages:
-  {% for image in additionalimages_list %}
+{% for image in additional_images_list %}
   - name: {{ image.name }}
-  {% endfor %}
+{% endfor %}
 {% endif %}

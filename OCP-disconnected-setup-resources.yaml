@@ -4,8 +4,7 @@
   become: false
   gather_facts: false
   vars_files:
-  - vars/vars.yaml
-  - vars/operators.yaml
+  - vars.yaml
 
   tasks:
   - name: Create temp folder
@@ -30,7 +29,6 @@
       - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ ocp_version }}/oc-mirror.tar.gz
     tags:
       - download-resources
-      - skip
   
   - name: Untar OCP binaries
     ansible.builtin.unarchive:
@@ -42,16 +40,14 @@
       - openshift-install-linux.tar.gz
       - oc-mirror.tar.gz
     tags:
-      - download-resources    
-      - skip      
+      - download-resources
 
   - name: Download mirror registry package
     ansible.builtin.get_url:
       url: https://mirror.openshift.com/pub/openshift-v4/clients/mirror-registry/latest/mirror-registry.tar.gz
       dest: "{{ dir_files }}/mirror-registry"
     tags:
-      - download-resources    
-      - skip      
+      - download-resources
 
   - name: Untar mirror registry package
     ansible.builtin.unarchive:
@@ -59,8 +55,7 @@
       dest: "{{ dir_files }}/mirror-registry/"
       mode: 0755
     tags:
-      - download-resources    
-      - skip      
+      - download-resources
 
   - name: Create HAProxy config file
     ansible.builtin.template:
@@ -119,8 +114,6 @@
     tags:
       - mirroring
 
-  - name: Operators
-
   - name: Create imageset-config.yaml file
     ansible.builtin.template:
       src: templates/imageset-config.yaml.j2
@@ -132,29 +125,38 @@
     ansible.builtin.command: oc-mirror --config="{{ dir_files }}/mirror-registry/imageset-config.yaml" file://"{{ dir_files }}/mirror-registry/"
     tags:
       - mirroring
-      - skip
  
   - name: Setting ocp_version_minor variable to process MC file on butane
     ansible.builtin.set_fact:
       ocp_version_minor: "{{ ocp_version.split('.')[0] }}.{{ ocp_version.split('.')[1] }}.0"
+    tags:
+      - ntp_machineconfig
 
   - name: Create master chrony MC file
     ansible.builtin.template:
       src: templates/chrony-mc-master.j2
       dest: "{{ dir_files }}/configs/99-master-chrony-conf.bu"
       mode: 0644
+    tags:
+      - ntp_machineconfig      
   
   - name: Create worker chrony MC file
     ansible.builtin.template:
       src: templates/chrony-mc-worker.j2
       dest: "{{ dir_files }}/configs/99-worker-chrony-conf.bu"
       mode: 0644
+    tags:
+      - ntp_machineconfig  
 
   - name: Convert master chrony MC file into YAML format
     ansible.builtin.command: butane "{{ dir_files }}/configs/99-master-chrony-conf.bu" -o "{{ dir_files }}/configs/99-master-chrony-conf.yaml"
-      
+    tags:
+      - ntp_machineconfig      
+
   - name: Convert worker chrony MC file into butane format
     ansible.builtin.command: butane "{{ dir_files }}/configs/99-worker-chrony-conf.bu" -o "{{ dir_files }}/configs/99-worker-chrony-conf.yaml"
+    tags:
+      - ntp_machineconfig
 
   - name: Create infra MCP file
     ansible.builtin.copy:
@@ -173,21 +175,18 @@
       - binaries/README.md
       - configs/99-master-chrony-conf.bu
       - configs/99-worker-chrony-conf.bu
-      - configs/temp-pullsecret.json
       - mirror-registry/mirror-registry.tar.gz
-    tags:
-      - skip
+
+  - name: Get current date and time
+    ansible.builtin.command: "date +'%d%b%H%M'"
+    register: timestamp
 
   - name: Compress contents into tarball
     community.general.archive:
       path: "{{ dir_files }}/*"
-      dest: "{{ dir_save_tarball }}/ocpfiles-hello.tar.gz"
-    tags:
-      - skip
+      dest: "{{ dir_save_tarball }}/ocpfiles-{{ timestamp.stdout }}.tar.gz"
 
   - name: Cleanup dir_files directory
     ansible.builtin.file:
       path: "{{ dir_files }}/"
       state: absent
-    tags:
-      - skip
