@@ -1,0 +1,60 @@
+global
+  log     	127.0.0.1 local2
+  pidfile 	/var/run/haproxy.pid
+  maxconn 	4000
+  daemon
+defaults
+  mode                	http
+  log                 	global
+  option              	dontlognull
+  option http-server-close
+  option              	redispatch
+  retries             	3
+  timeout http-request	10s
+  timeout queue       	1m
+  timeout connect     	10s
+  timeout client      	1m
+  timeout server      	1m
+  timeout http-keep-alive 10s
+  timeout check       	10s
+  maxconn             	3000
+listen api-server-6443
+  bind *:6443
+  mode tcp
+  server bootstrap {{ groups['bootstrap'][0] }}.{{ cluster_name }}.{{ base_domain }}:6443 check inter 1s backup
+{% for host in groups['master'] %}
+  server master{{ loop.index }} {{ host }}.{{ cluster_name }}.{{ base_domain }}:6443 check inter 1s
+{% endfor %}
+listen machine-config-server-22623
+  bind *:22623
+  mode tcp
+  server bootstrap {{ groups['bootstrap'][0] }}.{{ cluster_name }}.{{ base_domain }}:22623 check inter 1s backup
+{% for host in groups['master'] %}
+  server master{{ loop.index }} {{ host }}.{{ cluster_name }}.{{ base_domain }}:6443 check inter 1s
+{% endfor %}
+listen ingress-router-443
+  bind *:443
+  mode tcp
+  balance source
+{% if groups['infra'] %}
+  {% for host in groups['infra'] %}
+  server infra{{ loop.index }} {{ host }}.{{ cluster_name }}.{{ base_domain }}:6443 check inter 1s
+  {% endfor %}
+{% else %}
+  {% for host in groups['worker'] %}
+  server worker{{ loop.index }} {{ host }}.{{ cluster_name }}.{{ base_domain }}:6443 check inter 1s
+  {% endfor %}
+{% endif %}
+listen ingress-router-80
+  bind *:80
+  mode tcp
+  balance source
+{% if groups['infra'] %}
+  {% for host in groups['infra'] %}
+  server infra{{ loop.index }} {{ host }}.{{ cluster_name }}.{{ base_domain }}:6443 check inter 1s
+  {% endfor %}
+{% else %}
+  {% for host in groups['worker'] %}
+  server worker{{ loop.index }} {{ host }}.{{ cluster_name }}.{{ base_domain }}:6443 check inter 1s
+  {% endfor %}
+{% endif %}

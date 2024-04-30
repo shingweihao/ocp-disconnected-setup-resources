@@ -1,0 +1,37 @@
+---
+all:
+  children:
+    bootstrap:
+      hosts:
+        bootstrap:
+    
+    master:
+      hosts:
+        master1:
+        master2:
+        master3:
+      
+    worker:
+      hosts:
+        worker1:
+        worker2:
+        worker3:
+
+    infra:
+      hosts:
+        infra1:
+        infra2:
+        infra3:
+    
+    bastion:
+      hosts:
+        bastion:
+    
+    mirror_reg: # If mirror registry is installed in bastion, then leave as is
+      hosts:
+        bastion:
+
+    ntp: # Put IP address/FQDN of NTP
+      hosts:
+        192.2.100.50:
+        192.2.100.51:

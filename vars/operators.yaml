@@ -1,0 +1,58 @@
+---
+platform_images: y
+redhat_operators: y
+certified_operators: y
+community_operators: n
+additional_images: y
+
+redhat_operators_list:
+  - name: advanced-cluster-management
+    channel: release-2.10
+  - name: multicluster-engine
+    channel: stable-2.5
+  - name: rhacs-operator
+    channel: stable
+  - name: ansible-automation-platform-operator
+    channel: stable-2.4-cluster-scoped
+  - name: quay-operator
+    channel: stable-3.11
+  - name: quay-bridge-operator
+    channel: stable-3.11
+  - name: compliance-operator
+    channel: stable
+  - name: cluster-logging
+    channel: stable-5.8
+  - name: loki-operator
+    channel: stable-5.8
+  - name: nfd
+    channel: stable
+  - name: local-storage-operator
+    channel: stable
+  - name: rhods-operator
+    channel: fast
+  - name: openshift-pipelines-operator-rh
+    channel: latest
+  - name: serverless-operator
+    channel: stable
+  - name: servicemeshoperator
+    channel: stable
+
+certified_operators_list:
+  - name: nvidia-network-operator
+    channel: 24.1.0
+  - name: gpu-operator-certified
+    channel: v23.9
+  - name: nutanixcsioperator
+    channel: stable
+  - name: portworx-certified
+    channel: stable
+
+community_operators_list:
+  - name:
+    channel:     
+ 
+additional_images_list:
+  - name: registry.redhat.io/rhel8/support-tools
+  - name: quay.io/peterducai/openshift-etcd-suite:latest
+  - name: quay.io/openshifttest/hello-openshift:1.2.0
+  - name: registry.redhat.io/openshift4/ose-cli    

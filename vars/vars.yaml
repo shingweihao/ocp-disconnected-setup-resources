@@ -1,0 +1,32 @@
+---
+# Directories
+dir_files: /tmp/ocpfiles
+dir_save_tarball: /home/weihao
+
+# OCP configs
+ocp_version: 4.14.17
+cluster_name: test
+base_domain: example.com
+cluster_network_cidr: 10.128.0.0/14
+cluster_network_hostprefix: 23
+network_type: OVNKubernetes
+service_network_cidr: 172.30.0.0/16
+platform: vsphere
+
+# vSphere configs
+vcenter_server: your.vcenter.server
+vcenter_user: username
+vcenter_password: password
+vcenter_datacenter: datacenter
+vcenter_defaultDatastore: datastore 
+vcenter_diskType: thin
+
+# KeepaliveD configs
+network_inf: ens192 
+master_lb: 192.2.100.10
+backup_lb: 192.2.100.11
+vip_lb: 192.2.100.12
+
+# Mirror Registry
+mirror_reg_user: admin
+mirror_reg_pwd: password

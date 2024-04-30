@@ -1,0 +1,39 @@
+apiVersion: v1
+baseDomain: {{ base_domain }}
+compute:
+- hyperthreading: Enabled
+  name: worker
+  replicas: 0
+controlPlane:
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+metadata:
+  name: {{ cluster_name }}
+networking:
+  clusterNetwork:
+  - cidr: {{ cluster_network_cidr }}
+    hostPrefix: {{ cluster_network_hostprefix }}
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - {{ service_network_cidr }}
+fips: false
+platform:
+{% if platform == "none" %}
+  none: {}
+{% elif platform == "vsphere" %}
+  vsphere:
+    vcenter: {{ vcenter_server }}
+    username: {{ vcenter_user }}
+    password: {{ vcenter_password }}
+    datacenter: {{ vcenter_datacenter }}
+    defaultDatastore: {{ vcenter_defaultDatastore }}
+    diskType: {{ vcenter_diskType }}
+{% endif %}
+pullSecret: '{{ pull_secret }}'
+sshKey: '<FILL SSH KEY IN HERE>'
+additionalTrustBundle: |
+    -----BEGIN CERTIFICATE-----
+    <cert-for-mirror-registry>
+    <cert-for-vSphere-API>
+    -----END CERTIFICATE-----
