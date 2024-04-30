@@ -13,7 +13,7 @@ You will need to modify the following files according to your needs:
 - For all other fields: Define **ONLY THE HOSTNAME** (not FQDN) of the nodes.
 - If mirror registry is hosted in bastion, leave the **"mirror_reg"** field as default value.
 
-## Define variables (vars/vars.yaml)
+## Define variables (vars.yaml)
 ### Directories
 - `dir_files`: Directory where all the files will be saved and processed at
 - `dir_save_tarball`: Directory to save generated tarball into
