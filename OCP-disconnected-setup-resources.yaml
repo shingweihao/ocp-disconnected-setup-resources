@@ -23,10 +23,12 @@
     ansible.builtin.get_url:
       url: "{{ item }}"
       dest: "{{ dir_files }}/binaries"
+      mode: 0644
     loop:
       - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ ocp_version }}/openshift-client-linux.tar.gz
       - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ ocp_version }}/openshift-install-linux.tar.gz
       - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ ocp_version }}/oc-mirror.tar.gz
+      - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/butane/latest/butane
     tags:
       - download-resources
   
