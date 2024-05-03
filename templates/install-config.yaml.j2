@@ -35,5 +35,13 @@ sshKey: '<FILL SSH KEY IN HERE>'
 additionalTrustBundle: |
     -----BEGIN CERTIFICATE-----
     <cert-for-mirror-registry>
+  {% if platform == "vsphere" %}
     <cert-for-vSphere-API>
     -----END CERTIFICATE-----
+imageContentSources:
+- mirrors:
+  - {{ groups['mirror_reg'][0] }}.{{ cluster_name }}.{{ base_domain }}:8443/openshift/release-images ## DO NOT CHANGE!! ##
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - {{ groups['mirror_reg'][0] }}.{{ cluster_name }}.{{ base_domain }}:8443/openshift/release ## DO NOT CHANGE!! ##
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
