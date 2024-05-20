@@ -71,7 +71,8 @@ You can then bring this folder into the disconnected environment, and proceed wi
 ```
 $ tree
 
-── binaries
+├── binaries
+│   ├── butane
 │   ├── kubectl
 │   ├── oc
 │   ├── oc-mirror
@@ -87,10 +88,9 @@ $ tree
 │   └── mcp-infra.yaml
 ├── installer
 │   └── install-config.yaml
-├── mirror-registry
-│   ├── execution-environment.tar
-│   ├── image-archive.tar
-│   ├── imageset-config.yaml
-│   ├── mirror-registry
-└── └── mirror_seq_000001.tar
+└── mirror-registry
+    ├── execution-environment.tar
+    ├── image-archive.tar
+    ├── imageset-config.yaml
+    └── mirror-registry
 ```
