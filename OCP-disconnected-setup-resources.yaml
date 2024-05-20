@@ -48,7 +48,7 @@
     ansible.builtin.unarchive:
       src: "{{ dir_files }}/mirror-registry/mirror-registry.tar.gz"
       dest: "{{ dir_files }}/mirror-registry/"
-      mode: 0755
+      mode: 0644
 
   - name: Create HAProxy config file
     ansible.builtin.template:
@@ -123,11 +123,21 @@
       dest: "{{ dir_files }}/configs/99-worker-chrony-conf.bu"
       mode: 0644
 
-  - name: Create infra MCP file
+  - name: Create post-config files
     ansible.builtin.copy:
-      src: templates/mcp-infra.yaml
-      dest: "{{ dir_files }}/configs/mcp-infra.yaml"
+      src: "templates/{{ item }}"
+      dest: "{{ dir_files }}/configs/{{ item }}"
       mode: 0644
+    loop:
+      - mcp-infra.yaml
+      - cluster-monitoring-config.yaml
+      - etcd-backup.yaml
+      - etcd-backup-cronjob.yaml
+      - check-etcd-encryption.sh
+      - loki-s3-secret.yaml
+      - lokistack-cr.yaml
+      - clusterlogging-cr.yaml
+      - lokistack-infra.yaml
 
   - name: Removing redundant files
     ansible.builtin.file:
