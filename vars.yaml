@@ -21,10 +21,10 @@ vcenter_defaultDatastore: datastore
 vcenter_diskType: thin
 
 # KeepaliveD configs
-network_inf: NETWORK-INF-NAME 
-master_lb: MASTER_LB_IP
-backup_lb: BACKUP_LB_IP
-vip_lb: VIP_LB
+network_inf: <NETWORK-INF-NAME>
+master_lb: <MASTER_LB_IP>
+backup_lb: <BACKUP_LB_IP>
+vip_lb: <VIP_LB
 
 # Contents to mirror configs
 platform_images: y
@@ -143,4 +143,3 @@ additional_images_list:
   - name: ghcr.io/kwkoo/rhpins:12.1.0
   - name: docker.io/bluenviron/mediamtx:latest-ffmpeg
   - name: docker.io/bluenviron/mediamtx:latest-ffmpeg
-  
