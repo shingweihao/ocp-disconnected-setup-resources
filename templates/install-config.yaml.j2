@@ -37,21 +37,12 @@ additionalTrustBundle: |
     <cert-for-mirror-registry>
   {% if platform == "vsphere" %}
     <cert-for-vSphere-API>
-<<<<<<< HEAD
   {% endif %}
-=======
-  {% endif %}  
->>>>>>> 007883367aeb517558555aa3c2cdd6bf9d4c146c
     -----END CERTIFICATE-----
 imageContentSources:
 - mirrors:
   - {{ groups['mirror_reg'][0] }}.{{ cluster_name }}.{{ base_domain }}:8443/openshift/release-images
   source: quay.io/openshift-release-dev/ocp-release
 - mirrors:
-<<<<<<< HEAD
   - {{ groups['mirror_reg'][0] }}.{{ cluster_name }}.{{ base_domain }}:8443/openshift/release
   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
-=======
-  - {{ groups['mirror_reg'][0] }}.{{ cluster_name }}.{{ base_domain }}:8443/openshift/release ## DO NOT CHANGE!! ##
-  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
->>>>>>> 007883367aeb517558555aa3c2cdd6bf9d4c146c
