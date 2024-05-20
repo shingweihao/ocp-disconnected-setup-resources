@@ -16,7 +16,6 @@ You will need to modify the following files according to your needs:
 ## Define variables (vars.yaml)
 ### Directories
 - `dir_files`: Directory where all the files will be saved and processed at
-- `dir_save_tarball`: Directory to save generated tarball into
 
 ### OCP configs
 - `ocp_version`: Full OCP version you're going for (e.g. 4.14.17)
@@ -42,10 +41,6 @@ You will need to modify the following files according to your needs:
 - `defaultDatastore`: datastore
 - `diskType`: thin
 
-### Mirror Registry configs
-- `mirror_reg_user`: Username for mirror registry
-- `mirror_reg_pwd`: Password for mirror registry
-
 ### Contents to mirror configs
 - `platform_images`: Indicate any platform images to mirror (default: y, values: y/n)
 - `redhat_operators`: Indicate any Red Hat operators to mirror (default: y, values: y/n)
@@ -66,31 +61,13 @@ $ sudo dnf install ansible-core
 $ ansible-galaxy collection install community.general
 ```
 
-To run the playbook with all tasks.
+To run the playbook.
 ```
 $ ansible-playbook -i inventory OCP-disconnected-setup-resources.yaml
 ```
 
-You may skip certain jobs while running the playbook.
-- `download-resources`: Plays associated to downloading resources for OCP
-- `keepalived`: Plays associated to provisioning keepalived config files
-- `mirroring`: Plays associated to mirroring OCP platform & operator images
-- `ntp_machineconfig`: Plays associated to creating NTP MachineConfigs
-
-To run the playbook while skipping certain tasks, add the ``--skip-tags`` flag.
-```
-$ ansible-playbook -i inventory OCP-disconnected-setup-resources.yaml \
---skip-tags=download \
---skip-tags=keepalived \
-...
-```
-
-The end result should be a generated tar in the specified `dir_save_tarball` directory.  
-You can then bring this .tar into the disconnected environment, and proceed with the deployment.
-```
-$ ls
-ocpfiles-30Apr1355.tar.gz
-```
+The end result should be a generated directory in the specified `dir_files` directory.  
+You can then bring this folder into the disconnected environment, and proceed with the deployment.
 ```
 $ tree
 
@@ -100,8 +77,8 @@ $ tree
 │   ├── oc-mirror
 │   └── openshift-install
 ├── configs
-│   ├── 99-master-chrony-conf.yaml
-│   ├── 99-worker-chrony-conf.yaml
+│   ├── 99-master-chrony-conf.bu
+│   ├── 99-worker-chrony-conf.bu
 │   ├── config.json
 │   ├── haproxy.cfg
 │   ├── keepalived.conf_BACKUP
@@ -115,6 +92,5 @@ $ tree
 │   ├── image-archive.tar
 │   ├── imageset-config.yaml
 │   ├── mirror-registry
-│   └── mirror_seq_000001.tar
-└── ocpfiles-30Apr1355.tar.gz
+└── └── mirror_seq_000001.tar
 ```
