@@ -39,6 +39,12 @@
       - openshift-install-linux.tar.gz
       - oc-mirror.tar.gz
 
+  - name: Download RHCOS live ISO
+    ansible.builtin.get_url:
+      url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.14/latest/rhcos-live.x86_64.iso
+      dest: "{{ dir_files }}/"
+      mode: 0644
+
   - name: Download mirror registry package
     ansible.builtin.get_url:
       url: https://mirror.openshift.com/pub/openshift-v4/clients/mirror-registry/latest/mirror-registry.tar.gz
