@@ -2,20 +2,18 @@
 A simple playbook written to automate the process of preparing necessary resources for an OCP UPI disconnected environment installation.
 
 # Variables
-You will need to modify the following files according to your needs:
+Modify the following files according to your needs:
 - `inventory`
 - `vars.yaml`
-
-**If there is any unused variables, leave it as default/empty.**
 
 ## Define hosts (inventory)
 - For NTP: Define NTP server **IP adress** or **FQDN**.
 - For all other fields: Define **ONLY THE HOSTNAME** (not FQDN) of the nodes.
-- If mirror registry is hosted in bastion, leave the **"mirror_reg"** field as default value.
+- If mirror registry is hosted in bastion, leave the **mirror_reg** field as default value.
 
 ## Define variables (vars.yaml)
 ### Directories
-- `dir_files`: Directory where all the files will be saved and processed at
+- `dir_files`: Directory where all the files will be generated to
 
 ### OCP configs
 - `ocp_version`: Full OCP version you're going for (e.g. 4.14.17)

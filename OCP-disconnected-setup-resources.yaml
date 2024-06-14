@@ -1,5 +1,5 @@
 ---
-- name: Playbook to setup files for OCP disconnected environment
+- name: Playbook to generate files for OCP disconnected environment
   hosts: localhost
   gather_facts: false
   vars_files:
@@ -18,7 +18,7 @@
       - installer
       - mirror-registry
 
-  - name: Download OCP binaries
+  - name: Download necessary binaries
     ansible.builtin.get_url:
       url: "{{ item }}"
       dest: "{{ dir_files }}/binaries"
@@ -28,6 +28,7 @@
       - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ ocp_version }}/openshift-install-linux.tar.gz
       - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/{{ ocp_version }}/oc-mirror.tar.gz
       - https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/butane/latest/butane
+      - https://mirror.openshift.com/pub/openshift-v4/clients/helm/latest/helm-linux-amd64.tar.gz
   
   - name: Untar OCP binaries
     ansible.builtin.unarchive:
@@ -38,6 +39,7 @@
       - openshift-client-linux.tar.gz
       - openshift-install-linux.tar.gz
       - oc-mirror.tar.gz
+      - helm-linux-amd64.tar.gz
 
   - name: Download RHCOS live ISO
     ansible.builtin.get_url:
